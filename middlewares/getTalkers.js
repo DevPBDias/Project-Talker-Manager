@@ -27,6 +27,7 @@ const idTalkers = async (req, res) => {
 };
 
 module.exports = {
+    talkersAPI,
     readTalkers,
     idTalkers,
 };

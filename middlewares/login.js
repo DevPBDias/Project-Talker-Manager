@@ -32,16 +32,34 @@ const userValidatePassword = (req, res, next) => {
     next();
 };
 
-const randomTokenValidate = (req, res, next) => {
+const randomTokenGenerator = (req, res, next) => {
     const rdToken = randomToken(16);
+
     if (rdToken) {
         return res.status(200).json({ token: `${rdToken}` });
     }
     next();
 };
 
+const validateToken = (req, res, next) => {
+    const { authorization } = req.headers;
+
+    if (!authorization) {
+        return res.status(401).json({
+            message: 'Token não encontrado',
+          });
+    }
+    if (authorization.length < 16) {
+        return res.status(401).json({
+            message: 'Token inválido',
+          });
+    }
+    next();
+};
+
 module.exports = {
-    randomTokenValidate,
+    randomTokenGenerator,
     userValidateEmail,
     userValidatePassword,
+    validateToken,
 };
